@@ -48,12 +48,18 @@ public class Movie {
     private Integer voteAverage;
     private Integer voteCount;
 
-    @OneToMany(mappedBy = "movie")
-    private Set<ProductionCompany> productionCompanies = new HashSet<>();
-    @OneToMany(mappedBy = "movie")
-    private Set<ProductionCountry> productionCountries = new HashSet<>();
-    @OneToMany(mappedBy = "movie")
-    private Set<SpokenLanguage> spokenLanguages = new HashSet<>();
-    @OneToMany(mappedBy = "movie")
-    private Set<Genre> genres = new HashSet<>();
+    @JoinColumn(name = "PRODUCTION_COMPANY_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private ProductionCompany productionCompanies;
+
+    @JoinColumn(name = "PRODUCTION_COUNTRY_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private ProductionCountry productionCountries;
+
+    @JoinColumn(name = "SPOKEN_LANGUAGE_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private SpokenLanguage spokenLanguages;
+    @JoinColumn(name = "GENRE_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Genre genre;
 }
