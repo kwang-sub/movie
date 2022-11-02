@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
 @RestControllerAdvice(assignableTypes = {MovieController.class})
-public class MovieControllerHandler {
+public class MovieControllerAdvice {
 
     @ExceptionHandler(APIAccessException.class)
     public ResponseEntity<ErrorResult> APIAccessExHandler(APIAccessException e) {

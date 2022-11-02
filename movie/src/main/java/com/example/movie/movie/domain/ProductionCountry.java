@@ -4,6 +4,8 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -15,7 +17,6 @@ public class ProductionCountry {
     private String name;
     private String iso_3166_1;
 
-    @JoinColumn(name = "MOVIE_ID")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Movie movie;
+    @OneToMany(mappedBy = "productionCountries")
+    private List<Movie> movie = new ArrayList<>();
 }
