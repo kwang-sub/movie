@@ -11,7 +11,7 @@ public class SpokenLanguage {
 
     @Id @Column(name = "SPOKEN_LANGUAGE_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String iso_639_1;
     private String name;
 

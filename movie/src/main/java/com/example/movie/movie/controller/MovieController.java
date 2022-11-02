@@ -2,6 +2,7 @@ package com.example.movie.movie.controller;
 
 import com.example.movie.movie.dto.RequestMovieDetailsDTO;
 import com.example.movie.movie.dto.ResponseMovieDetailsDTO;
+import com.example.movie.movie.dto.ResponseMovieSimilarDTO;
 import com.example.movie.movie.service.MovieService;
 import com.example.movie.util.exception.APIAccessException;
 import com.example.movie.util.pagine.PageRequestDTO;
@@ -24,7 +25,7 @@ public class MovieController {
 
     @GetMapping(value = "/{movie_id}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseMovieDetailsDTO> read(@PathVariable("movie_id") Integer movieId, RequestMovieDetailsDTO requestMovieDetailsDTO) {
+    public ResponseEntity<ResponseMovieDetailsDTO> read(@PathVariable("movie_id") Long movieId, RequestMovieDetailsDTO requestMovieDetailsDTO) {
         if (requestMovieDetailsDTO.getApi_key() == null) {
             throw new APIAccessException("API Key 값을 설정해주세요.");
         }
@@ -40,6 +41,18 @@ public class MovieController {
             throw new APIAccessException("API Key 값을 설정해주세요.");
         }
         PageResultDTO resultDTO = movieService.getPopularList(APIKey, pageRequestDTO);
+        return new ResponseEntity(resultDTO, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{movie_id}/similar", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PageResultDTO> similarList(@PathVariable("movie_id") Long movieId, @RequestParam("api_key") String APIKey,
+                                      PageRequestDTO pageRequestDTO) {
+        if (APIKey == null) {
+            throw new APIAccessException("API Key 값을 설정해주세요.");
+        }
+        PageResultDTO resultDTO = movieService.getSimilarList(movieId, APIKey, pageRequestDTO);
+
         return new ResponseEntity(resultDTO, HttpStatus.OK);
     }
 }

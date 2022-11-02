@@ -1,6 +1,5 @@
 package com.example.movie.movie.dto;
 
-import com.example.movie.movie.domain.Genre;
 import lombok.Builder;
 import lombok.Data;
 
@@ -14,9 +13,9 @@ public class ResponseMovieDetailsDTO {
     private Object belongs_to_collection;
     private Integer budget;
 
-    private ResponseGenreDTO genre;
+    private List<ResponseGenreDTO> genre;
     private String homepage;
-    private Integer id;
+    private Long id;
     private String imdb_id;
 
     private String original_language;

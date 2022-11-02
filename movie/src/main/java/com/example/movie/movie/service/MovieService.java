@@ -7,7 +7,9 @@ import com.example.movie.util.pagine.PageResultDTO;
 
 public interface MovieService {
 
-    ResponseMovieDetailsDTO readMovie(Integer movieId, RequestMovieDetailsDTO requestMovieDetailsDTO);
+    ResponseMovieDetailsDTO readMovie(Long movieId, RequestMovieDetailsDTO requestMovieDetailsDTO);
 
     PageResultDTO getPopularList(String apiKey, PageRequestDTO pageRequestDTO);
+
+    PageResultDTO getSimilarList(Long movieId, String apiKey, PageRequestDTO pageRequestDTO);
 }

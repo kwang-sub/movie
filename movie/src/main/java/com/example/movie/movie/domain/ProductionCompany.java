@@ -12,7 +12,7 @@ public class ProductionCompany {
 
     @Id @Column(name = "PRODUCTION_COMPANY_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String name;
     private String logoPath;
     private String originCountry;

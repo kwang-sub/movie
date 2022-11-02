@@ -22,7 +22,7 @@ public class Movie {
 
     @Id @Column(name = "MOVIE_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Convert(converter = BooleanToYNConverter.class)
     private boolean adult;
@@ -59,7 +59,10 @@ public class Movie {
     @JoinColumn(name = "SPOKEN_LANGUAGE_ID")
     @ManyToOne(fetch = FetchType.LAZY)
     private SpokenLanguage spokenLanguages;
-    @JoinColumn(name = "GENRE_ID")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Genre genre;
+
+    @OneToMany(mappedBy = "movie")
+    private List<MovieGenre> genres = new ArrayList<>();
+
+    @OneToMany(mappedBy = "movie")
+    private Set<MovieKeyword> keywords = new HashSet<>();
 }

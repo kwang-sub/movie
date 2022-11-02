@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class ResponseGenreDTO {
-    private Integer id;
+    private Long id;
     private String name;
 }

@@ -8,13 +8,13 @@ import java.util.List;
 
 @Entity
 @Getter
-public class Genre {
+public class Keyword {
 
-    @Id @Column(name = "GENRE_ID")
+    @Id @Column(name = "KEYWORD_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 
-    @OneToMany(mappedBy = "genre")
-    private List<MovieGenre> movieGenreList = new ArrayList<>();
+    @OneToMany(mappedBy = "keyword")
+    private List<MovieKeyword> movieKeywords = new ArrayList<>();
 }

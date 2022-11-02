@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class ResponseProductionCompanyDTO {
-    private Integer id;
+    private Long id;
     private String name;
     private String logo_path;
     private String origin_country;

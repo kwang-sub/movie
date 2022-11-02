@@ -73,23 +73,53 @@ CREATE TABLE `movie` (
   CONSTRAINT `FK5q43c9ttmc70n54e3sp6jq252` FOREIGN KEY (`production_company_id`) REFERENCES `production_company` (`production_company_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8mb3;
 
+-- movie.keyword definition
 
-insert into genre (name) value("공포");
-insert into genre (name) value("액션");
-insert into genre (name) value("코미디");
+CREATE TABLE `keyword` (
+  `keyword_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`keyword_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+-- movie.movie_genre definition
+
+CREATE TABLE `movie_genre` (
+  `movie_genre_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `genre_id` bigint(20) DEFAULT NULL,
+  `movie_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`movie_genre_id`),
+  KEY `FKp6vjabv2e2435at1hnuxg64yv` (`movie_id`),
+  CONSTRAINT `FKp6vjabv2e2435at1hnuxg64yv` FOREIGN KEY (`movie_id`) REFERENCES `movie` (`movie_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+-- movie.movie_keyword definition
+
+CREATE TABLE `movie_keyword` (
+  `movie_keyword_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `keyword_id` bigint(20) DEFAULT NULL,
+  `movie_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`movie_keyword_id`),
+  KEY `FKb3gu77qu0n6rshma3kbswadib` (`keyword_id`),
+  KEY `FK1gyls54wod8f33b9wylkspv7e` (`movie_id`),
+  CONSTRAINT `FK1gyls54wod8f33b9wylkspv7e` FOREIGN KEY (`movie_id`) REFERENCES `movie` (`movie_id`),
+  CONSTRAINT `FKb3gu77qu0n6rshma3kbswadib` FOREIGN KEY (`keyword_id`) REFERENCES `keyword` (`keyword_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+
+insert into genre (name) values ("공포"), ("액션"), ("코미디");
 commit;
 
-insert into production_company (logo_path, name, origin_country) value("DUMMY DATA 11", "DUMMY DATA11", "DUMMY DATA11");
-insert into production_company (logo_path, name, origin_country) value("DUMMY DATA 22", "DUMMY DATA22", "DUMMY DATA22");
-insert into production_company (logo_path, name, origin_country) value("DUMMY DATA 33", "DUMMY DATA33", "DUMMY DATA33");
+insert into production_company (logo_path, name, origin_country) 
+values ("DUMMY DATA 11", "DUMMY DATA11", "DUMMY DATA11"), ("DUMMY DATA 22", "DUMMY DATA22", "DUMMY DATA22"), ("DUMMY DATA 33", "DUMMY DATA33", "DUMMY DATA33");
 commit;
 
-insert into production_country (iso_3166_1, name) value("DUMMY DATA 11", "DUMMY DATA 11");
-insert into production_country (iso_3166_1, name) value("DUMMY DATA 22", "DUMMY DATA 22");
-insert into production_country (iso_3166_1, name) value("DUMMY DATA 33", "DUMMY DATA 33");
+insert into production_country (iso_3166_1, name) 
+values ("DUMMY DATA 11", "DUMMY DATA 11"), ("DUMMY DATA 22", "DUMMY DATA 22"), ("DUMMY DATA 33", "DUMMY DATA 33");
 commit;
 
-insert into spoken_language (iso_639_1, name) value("DUMMY DATA 11", "DUMMY DATA 11");
-insert into spoken_language (iso_639_1, name) value("DUMMY DATA 22", "DUMMY DATA 22");
-insert into spoken_language (iso_639_1, name) value("DUMMY DATA 33", "DUMMY DATA 33");
+insert into spoken_language (iso_639_1, name) 
+values("DUMMY DATA 11", "DUMMY DATA 11"), ("DUMMY DATA 22", "DUMMY DATA 22"), ("DUMMY DATA 22", "DUMMY DATA 22");
+commit;
+
+insert into keyword (name) values ("신작"), ("흥미유발"), ("유행"), ("전연령");
 commit;

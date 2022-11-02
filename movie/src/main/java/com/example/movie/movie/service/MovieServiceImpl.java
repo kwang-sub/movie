@@ -23,7 +23,7 @@ public class MovieServiceImpl implements MovieService{
 
     private final MovieRepository movieRepository;
     @Override
-    public ResponseMovieDetailsDTO readMovie(Integer movieId, RequestMovieDetailsDTO requestMovieDetailsDTO) {
+    public ResponseMovieDetailsDTO readMovie(Long movieId, RequestMovieDetailsDTO requestMovieDetailsDTO) {
 //        API Key 값 유효성 검사하는 로직 후순위 작업(우선 생략)
         Movie movie = movieRepository.findByIdWithDTO(movieId, requestMovieDetailsDTO);
         if (movie == null) {
@@ -36,7 +36,6 @@ public class MovieServiceImpl implements MovieService{
     public PageResultDTO getPopularList(String apiKey, PageRequestDTO pageRequestDTO) {
 //        API Key 값 유효성 검사하는 로직 후순위 작업(우선 생략)
         Page<Movie> result = movieRepository.findPopularList(pageRequestDTO);
-        System.out.println(result);
         if (result.getContent().size() == 0) {
             throw new MovieNotFoundException("찾을 수 없는 요청입니다.");
         }
@@ -54,15 +53,53 @@ public class MovieServiceImpl implements MovieService{
                 .vote_count(entity.getVoteCount())
                 .video(entity.isVideo())
                 .vote_average(entity.getVoteAverage())
-                .genre_id(entity.getGenre().getId())
+                .genre_ids(entityToMovieGenreIds(entity.getGenres()))
+                .build());
+        return new PageResultDTO(result, fn, pageRequestDTO.getPage());
+    }
+
+    @Override
+    public PageResultDTO getSimilarList(Long movieId, String apiKey, PageRequestDTO pageRequestDTO) {
+//        API Key 값 유효성 검사하는 로직 후순위 작업(우선 생략)
+        
+        Movie movie = movieRepository.findById(movieId)
+                .orElseThrow(() -> new MovieNotFoundException("찾을 수 없는 요청입니다."));
+        List<Long> keywordIds = entityToMovieKeywordIds(movie.getKeywords());
+
+        Page<Movie> result = movieRepository.findSimilarList(movieId, keywordIds, pageRequestDTO);
+        if (result.getContent().size() == 0) {
+            throw new MovieNotFoundException("해당 영화 관련된 영화가 없습니다.");
+        }
+        Function<Movie, ResponseMovieSimilarDTO> fn = (entity -> ResponseMovieSimilarDTO.builder()
+                .id(entity.getId())
+                .poster_path(entity.getPosterPath())
+                .adult(entity.isAdult())
+                .overview(entity.getOverview())
+                .release_date(entity.getReleaseDate().toString())
+                .genre_ids(entityToMovieGenreIds(entity.getGenres()))
+                .original_title(entity.getOriginalTitle())
+                .original_language(entity.getOriginalLanguage())
+                .title(entity.getTitle())
+                .backdrop_path(entity.getBackdropPath())
+                .popularity(entity.getPopularity())
+                .vote_count(entity.getVoteCount())
+                .video(entity.isVideo())
+                .vote_average(entity.getVoteAverage())
                 .build());
 
         return new PageResultDTO(result, fn, pageRequestDTO.getPage());
     }
 
-    private List<Integer> genreEntityGetIds(Set<Genre> genres) {
+    private List<Long> entityToMovieKeywordIds(Set<MovieKeyword> keywords) {
+        return keywords.stream()
+                .map(entity -> entity.getKeyword().getId())
+                .collect(Collectors.toList());
+    }
+
+    private List<Long> entityToMovieGenreIds(List<MovieGenre> genres) {
+
         return genres.stream()
-                .map(entity -> entity.getId())
+                .map(entity -> entity.getGenre().getId())
                 .collect(Collectors.toList());
     }
 
@@ -89,7 +126,7 @@ public class MovieServiceImpl implements MovieService{
                 .video(movie.isVideo())
                 .vote_average(movie.getVoteAverage())
                 .vote_count(movie.getVoteCount())
-                .genre(genreEntityToDTO(movie.getGenre()))
+                .genre(genreEntityToDTO(movie.getGenres()))
                 .production_companies(companyEntityToDTO(movie.getProductionCompanies()))
                 .production_countries(countryEntityToDTO(movie.getProductionCountries()))
                 .spoken_languages(languageEntityToDTO(movie.getSpokenLanguages()))
@@ -109,7 +146,9 @@ public class MovieServiceImpl implements MovieService{
                 productionCompanies.getLogoPath(), productionCompanies.getOriginCountry());
     }
 
-    private ResponseGenreDTO genreEntityToDTO(Genre genres) {
-        return new ResponseGenreDTO(genres.getId(), genres.getName());
+    private List<ResponseGenreDTO> genreEntityToDTO(List<MovieGenre> genres) {
+        return genres.stream()
+                .map(entity -> new ResponseGenreDTO(entity.getGenre().getId(), entity.getGenre().getName()))
+                .collect(Collectors.toList());
     }
 }

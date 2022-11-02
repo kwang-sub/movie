@@ -13,7 +13,7 @@ public class ProductionCountry {
 
     @Id @Column(name = "PRODUCTION_COUNTRY_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String name;
     private String iso_3166_1;
 
