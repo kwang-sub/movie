@@ -1,43 +1,51 @@
 -- movie.genre definition
 
 CREATE TABLE `genre` (
-  `genre_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
+  `genre_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`genre_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+-- movie.keyword definition
+
+CREATE TABLE `keyword` (
+  `keyword_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`keyword_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- movie.production_company definition
 
 CREATE TABLE `production_company` (
-  `production_company_id` int(11) NOT NULL AUTO_INCREMENT,
-  `logo_path` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `origin_country` varchar(255) NOT NULL,
+  `production_company_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `logo_path` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `origin_country` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`production_company_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- movie.production_country definition
 
 CREATE TABLE `production_country` (
-  `production_country_id` int(11) NOT NULL AUTO_INCREMENT,
-  `iso_3166_1` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
+  `production_country_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `iso_3166_1` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`production_country_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- movie.spoken_language definition
 
 CREATE TABLE `spoken_language` (
-  `spoken_language_id` int(11) NOT NULL AUTO_INCREMENT,
-  `iso_639_1` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
+  `spoken_language_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `iso_639_1` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`spoken_language_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- movie.movie definition
 
 CREATE TABLE `movie` (
-  `movie_id` int(11) NOT NULL AUTO_INCREMENT,
+  `movie_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `adult` varchar(255) NOT NULL,
   `backdrop_path` varchar(255) DEFAULT NULL,
   `belongs_to_collection` varchar(255) DEFAULT NULL,
@@ -58,27 +66,16 @@ CREATE TABLE `movie` (
   `video` varchar(255) NOT NULL,
   `vote_average` int(11) DEFAULT NULL,
   `vote_count` int(11) DEFAULT NULL,
-  `genre_id` int(11) DEFAULT NULL,
-  `production_company_id` int(11) DEFAULT NULL,
-  `production_country_id` int(11) DEFAULT NULL,
-  `spoken_language_id` int(11) DEFAULT NULL,
+  `production_company_id` bigint(20) DEFAULT NULL,
+  `production_country_id` bigint(20) DEFAULT NULL,
+  `spoken_language_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`movie_id`),
-  KEY `FK2ggat6246891h4goynp4h9lk5` (`genre_id`),
   KEY `FK5q43c9ttmc70n54e3sp6jq252` (`production_company_id`),
   KEY `FK24hyxijqwalt0smtvpjivwdi8` (`production_country_id`),
   KEY `FK4uaxms9a0hmrpcqppl7v4nfx6` (`spoken_language_id`),
   CONSTRAINT `FK24hyxijqwalt0smtvpjivwdi8` FOREIGN KEY (`production_country_id`) REFERENCES `production_country` (`production_country_id`),
-  CONSTRAINT `FK2ggat6246891h4goynp4h9lk5` FOREIGN KEY (`genre_id`) REFERENCES `genre` (`genre_id`),
   CONSTRAINT `FK4uaxms9a0hmrpcqppl7v4nfx6` FOREIGN KEY (`spoken_language_id`) REFERENCES `spoken_language` (`spoken_language_id`),
   CONSTRAINT `FK5q43c9ttmc70n54e3sp6jq252` FOREIGN KEY (`production_company_id`) REFERENCES `production_company` (`production_company_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8mb3;
-
--- movie.keyword definition
-
-CREATE TABLE `keyword` (
-  `keyword_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`keyword_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- movie.movie_genre definition
@@ -88,7 +85,9 @@ CREATE TABLE `movie_genre` (
   `genre_id` bigint(20) DEFAULT NULL,
   `movie_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`movie_genre_id`),
+  KEY `FK86p3roa187k12avqfl28klp1q` (`genre_id`),
   KEY `FKp6vjabv2e2435at1hnuxg64yv` (`movie_id`),
+  CONSTRAINT `FK86p3roa187k12avqfl28klp1q` FOREIGN KEY (`genre_id`) REFERENCES `genre` (`genre_id`),
   CONSTRAINT `FKp6vjabv2e2435at1hnuxg64yv` FOREIGN KEY (`movie_id`) REFERENCES `movie` (`movie_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 

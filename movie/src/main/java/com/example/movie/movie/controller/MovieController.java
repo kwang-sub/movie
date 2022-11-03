@@ -23,7 +23,7 @@ public class MovieController {
 
     @GetMapping(value = "/{movie_id}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseMovieDetailsDTO> read(@PathVariable("movie_id") Long movieId, RequestMovieDetailsDTO requestMovieDetailsDTO) {
+    public ResponseEntity<ResponseMovieDetailsDTO> detail(@PathVariable("movie_id") Long movieId, RequestMovieDetailsDTO requestMovieDetailsDTO) {
         if (requestMovieDetailsDTO.getApi_key() == null) {
             throw new APIAccessException("API Key 값을 설정해주세요.");
         }
