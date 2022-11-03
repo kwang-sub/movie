@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 @Builder
-public class ResponseMovieSimilarDTO {
+public class ResponseMovieListDTO {
 
     private Long id;
     private String poster_path;

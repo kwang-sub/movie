@@ -1,10 +1,7 @@
 package com.example.movie.movie.domain;
 
 import com.example.movie.util.converter.BooleanToYNConverter;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
