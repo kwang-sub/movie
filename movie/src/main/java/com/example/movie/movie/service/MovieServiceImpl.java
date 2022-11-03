@@ -3,7 +3,7 @@ package com.example.movie.movie.service;
 import com.example.movie.movie.domain.*;
 import com.example.movie.movie.dto.*;
 import com.example.movie.movie.repository.MovieRepository;
-import com.example.movie.util.exception.MovieNotFoundException;
+import com.example.movie.util.exception.EntityNotFoundException;
 import com.example.movie.util.pagine.PageRequestDTO;
 import com.example.movie.util.pagine.PageResultDTO;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public class MovieServiceImpl implements MovieService{
 //        API Key 값 유효성 검사하는 로직 후순위 작업(우선 생략)
         Movie movie = movieRepository.findByIdWithDTO(movieId, requestMovieDetailsDTO);
         if (movie == null) {
-            throw new MovieNotFoundException("찾을 수 없는 요청입니다.");
+            throw new EntityNotFoundException("찾을 수 없는 요청입니다.");
         }
         return movieDetailsEntityToDTO(movie);
     }
@@ -37,9 +37,9 @@ public class MovieServiceImpl implements MovieService{
 //        API Key 값 유효성 검사하는 로직 후순위 작업(우선 생략)
         Page<Movie> result = movieRepository.findPopularList(pageRequestDTO);
         if (result.getContent().size() == 0) {
-            throw new MovieNotFoundException("찾을 수 없는 요청입니다.");
+            throw new EntityNotFoundException("찾을 수 없는 요청입니다.");
         }
-        Function<Movie, ResponseMoviePopularDTO> fn = (entity -> ResponseMoviePopularDTO.builder()
+        Function<Movie, ResponseMovieListDTO> fn = (entity -> ResponseMovieListDTO.builder()
                 .id(entity.getId())
                 .poster_path(entity.getPosterPath())
                 .adult(entity.isAdult())
@@ -63,14 +63,14 @@ public class MovieServiceImpl implements MovieService{
 //        API Key 값 유효성 검사하는 로직 후순위 작업(우선 생략)
         
         Movie movie = movieRepository.findById(movieId)
-                .orElseThrow(() -> new MovieNotFoundException("찾을 수 없는 요청입니다."));
+                .orElseThrow(() -> new EntityNotFoundException("찾을 수 없는 요청입니다."));
         List<Long> keywordIds = entityToMovieKeywordIds(movie.getKeywords());
 
         Page<Movie> result = movieRepository.findSimilarList(movieId, keywordIds, pageRequestDTO);
         if (result.getContent().size() == 0) {
-            throw new MovieNotFoundException("해당 영화 관련된 영화가 없습니다.");
+            throw new EntityNotFoundException("해당 영화 관련된 영화가 없습니다.");
         }
-        Function<Movie, ResponseMovieSimilarDTO> fn = (entity -> ResponseMovieSimilarDTO.builder()
+        Function<Movie, ResponseMovieListDTO> fn = (entity -> ResponseMovieListDTO.builder()
                 .id(entity.getId())
                 .poster_path(entity.getPosterPath())
                 .adult(entity.isAdult())
@@ -97,7 +97,6 @@ public class MovieServiceImpl implements MovieService{
     }
 
     private List<Long> entityToMovieGenreIds(List<MovieGenre> genres) {
-
         return genres.stream()
                 .map(entity -> entity.getGenre().getId())
                 .collect(Collectors.toList());
