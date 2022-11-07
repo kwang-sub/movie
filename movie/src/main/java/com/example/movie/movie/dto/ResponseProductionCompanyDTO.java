@@ -1,7 +1,6 @@
 package com.example.movie.movie.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 
 @Data
@@ -9,6 +8,6 @@ import lombok.Data;
 public class ResponseProductionCompanyDTO {
     private Long id;
     private String name;
-    private String logo_path;
-    private String origin_country;
+    private String logoPath;
+    private String originCountry;
 }

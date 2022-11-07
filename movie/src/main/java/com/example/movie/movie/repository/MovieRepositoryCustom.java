@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 public interface MovieRepositoryCustom {
-    Movie findByIdWithDTO(Long movieId, RequestMovieDetailsDTO requestMovieDetailsDTO);
+    Movie findByIdWithDTO(Long movieId);
 
     Page<Movie> findPopularList(PageRequestDTO pageRequestDTO);
 

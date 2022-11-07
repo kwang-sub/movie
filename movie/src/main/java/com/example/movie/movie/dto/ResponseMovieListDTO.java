@@ -10,17 +10,17 @@ import java.util.List;
 public class ResponseMovieListDTO {
 
     private Long id;
-    private String poster_path;
+    private String posterPath;
     private boolean adult;
     private String overview;
-    private String release_date;
-    private List<Long> genre_ids;
-    private String original_title;
-    private String original_language;
+    private String releaseDate;
+    private List<Long> genreIds;
+    private String originalTitle;
+    private String originalLanguage;
     private String title;
-    private String backdrop_path;
+    private String backdropPath;
     private Integer popularity;
-    private Integer vote_count;
+    private Integer voteCount;
     private boolean video;
-    private Integer vote_average;
+    private Integer voteAverage;
 }

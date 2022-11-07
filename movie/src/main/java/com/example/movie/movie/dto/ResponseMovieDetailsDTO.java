@@ -9,33 +9,33 @@ import java.util.List;
 @Builder
 public class ResponseMovieDetailsDTO {
     private boolean adult;
-    private String backdrop_path;
-    private Object belongs_to_collection;
+    private String backdropPath;
+    private Object belongsToCollection;
     private Integer budget;
 
     private List<ResponseGenreDTO> genre;
     private String homepage;
     private Long id;
-    private String imdb_id;
+    private String imdbId;
 
-    private String original_language;
-    private String original_title;
+    private String originalLanguage;
+    private String originalTitle;
     private String overview;
     private Integer popularity;
-    private String poster_path;
+    private String posterPath;
 
-    private ResponseProductionCompanyDTO production_companies;
-    private ResponseProductionCountryDTO production_countries;
-    private String release_date;
+    private ResponseProductionCompanyDTO productionCompanies;
+    private ResponseProductionCountryDTO productionCountries;
+    private String releaseDate;
     private Integer revenue;
     private Integer runtime;
-    private ResponseSpokenLanguageDTO spoken_languages;
+    private ResponseSpokenLanguageDTO spokenLanguages;
     private String status;
     private String tagline;
     private String title;
     private boolean video;
-    private Integer vote_average;
-    private Integer vote_count;
+    private Integer voteAverage;
+    private Integer voteCount;
 
 
 }
