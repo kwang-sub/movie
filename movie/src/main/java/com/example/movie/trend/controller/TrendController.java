@@ -1,6 +1,7 @@
 package com.example.movie.trend.controller;
 
 import com.example.movie.trend.service.TrendService;
+import com.example.movie.util.constant.ErrorMessage;
 import com.example.movie.util.exception.APIAccessException;
 import com.example.movie.util.exception.BadParamException;
 import lombok.RequiredArgsConstructor;
@@ -21,12 +22,12 @@ public class TrendController {
     @GetMapping(value = "/{media_type}/{time_window}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity trendList(@PathVariable("media_type") String mediaType,
-                                    @PathVariable("time_window") String timeWindow, @RequestParam(value = "api_key", required = false) String apiKey) {
+                                    @PathVariable("time_window") String timeWindow, @RequestHeader(name = "api-key", required = false) String apiKey) {
         if (apiKey == null) {
-            throw new APIAccessException("API Key 값을 설정해주세요.");
+            throw new APIAccessException(ErrorMessage.API_KEY_NOT_FOUND);
         }
         if (!trendParamCheck(mediaType, timeWindow)) {
-            throw new BadParamException("올바르지 않은 요청 값입니다");
+            throw new BadParamException(ErrorMessage.BAD_PARAM);
         }
 
         List<Object> trendList = trendService.getTrendList(mediaType, timeWindow, apiKey);

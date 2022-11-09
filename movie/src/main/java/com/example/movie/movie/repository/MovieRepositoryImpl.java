@@ -30,7 +30,7 @@ public class MovieRepositoryImpl implements MovieRepositoryCustom{
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Movie findByIdWithDTO(Long movieId, RequestMovieDetailsDTO requestMovieDetailsDTO) {
+    public Movie findByIdWithDTO(Long movieId) {
         return queryFactory.selectFrom(movie)
                 .leftJoin(movie.genres, movieGenre).fetchJoin()
                 .leftJoin(movieGenre.genre, genre).fetchJoin()
